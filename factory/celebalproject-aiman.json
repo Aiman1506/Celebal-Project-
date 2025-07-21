@@ -1,0 +1,9 @@
+{
+	"name": "celebalproject-aiman",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "71d4f4b7-946a-4df8-b766-0026d2e021ab",
+		"tenantId": "a4d246a7-8b02-4d71-bee6-28d2ce5b6104"
+	}
+}

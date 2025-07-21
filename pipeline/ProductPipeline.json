@@ -1,0 +1,95 @@
+{
+	"name": "ProductPipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "If greater than 600",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(pipeline().parameters.customerCount,600)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Copy product",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "Sql_Product",
+									"type": "DatasetReference",
+									"parameters": {
+										"schema_name": {
+											"value": "dbo",
+											"type": "Expression"
+										},
+										"table_name": {
+											"value": "product",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Customer_Json",
+									"type": "DatasetReference",
+									"parameters": {
+										"container": {
+											"value": "destination",
+											"type": "Expression"
+										},
+										"folder_name": {
+											"value": "product",
+											"type": "Expression"
+										},
+										"file_name": {
+											"value": "product.json",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"customerCount": {
+				"type": "int"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-07-21T14:10:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

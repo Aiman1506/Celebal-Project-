@@ -1,0 +1,187 @@
+{
+	"name": "pipeline_customer",
+	"properties": {
+		"activities": [
+			{
+				"name": "GetCustomer",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "select count(1) as row_count from dbo.customer",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "Sql_Product",
+						"type": "DatasetReference",
+						"parameters": {
+							"schema_name": ".",
+							"table_name": "."
+						}
+					}
+				}
+			},
+			{
+				"name": "If is greater than 600",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "GetCustomer",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(activity('GetCustomer').output.firstRow.row_count, 500)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "WebEmail",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "POST",
+								"headers": {
+									"content-Type": "application/json"
+								},
+								"url": {
+									"value": "https://prod-10.centralindia.logic.azure.com:443/workflows/0099995110214d0f8a48c82d208a44ee/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=HsbUAXKo0pDV2ajR6WpoS2WjtL_rdHEV_C1-1Nhb7Q4",
+									"type": "Expression"
+								},
+								"body": {
+									"value": "{\"to\":\"ummeaiman1506@gmail.com\",\"subject\":\"ADF Alert: Customer count too low\",\"body\":\"Customer record count is ≤ 500. Pipeline skipped data copy.\"}",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Copy Customer",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "Sql_Product",
+									"type": "DatasetReference",
+									"parameters": {
+										"schema_name": {
+											"value": "dbo",
+											"type": "Expression"
+										},
+										"table_name": {
+											"value": "customer",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Customer_Json",
+									"type": "DatasetReference",
+									"parameters": {
+										"container": {
+											"value": "destination",
+											"type": "Expression"
+										},
+										"folder_name": {
+											"value": "customer",
+											"type": "Expression"
+										},
+										"file_name": {
+											"value": "customer.json",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Execute Product",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "GetCustomer",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "ProductPipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"customerCount": {
+							"value": "@activity('GetCustomer').output.firstRow.row_count",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-07-21T18:01:14Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,113 @@
+{
+	"name": "country_rest",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set Country",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "country_rest",
+					"value": {
+						"value": "@createArray('india', 'us', 'uk', 'china', 'russia')\r\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForCountry",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Set Country",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('country_rest')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy REST",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "JsonSource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "JsonReadSettings"
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "rest_country",
+									"type": "DatasetReference",
+									"parameters": {
+										"country": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Json_output",
+									"type": "DatasetReference",
+									"parameters": {
+										"filename": {
+											"value": "@concat(item(), '.json')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"country_rest": {
+				"type": "Array"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-07-21T14:10:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
