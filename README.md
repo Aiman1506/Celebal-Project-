@@ -118,8 +118,5 @@ Additional advanced features include:
 *Azure Data Engineer Intern | SQL | Azure | ADF | Python*
 📬 [ummeaiman1506@gmail.com](mailto:ummeaiman1506@gmail.com)
 
-📬 ContactFor any queries, collaboration, or demo, reach out at: ummeaiman1506@gmail.com
-
-“Empowering insights through seamless data automation.”
 ---
 Happy Data Automation! 🚀🎉
