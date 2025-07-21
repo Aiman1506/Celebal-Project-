@@ -116,8 +116,10 @@ Additional advanced features include:
 
 **Umme Aiman Lalkot**
 *Azure Data Engineer Intern | SQL | Azure | ADF | Python*
-🔗 [Connect on LinkedIn](www.linkedin.com/in/aimanlalkot)
 📬 [ummeaiman1506@gmail.com](mailto:ummeaiman1506@gmail.com)
 
+📬 ContactFor any queries, collaboration, or demo, reach out at: ummeaiman1506@gmail.com
+
+“Empowering insights through seamless data automation.”
 ---
 Happy Data Automation! 🚀🎉
