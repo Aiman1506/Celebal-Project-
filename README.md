@@ -146,29 +146,5 @@ Additionally, advanced features such as scheduled triggers, parameter passing be
 **Umme Aiman Lalkot**\
 *Azure Data Engineer Intern | SQL | Azure | ADF | Python*
 
----
-
-## 📖 How to Deploy
-
-1. Import all pipelines, linked services, and datasets into your Azure Data Factory instance.
-2. Configure REST API endpoints, database connections, and ADLS file paths.
-3. Set triggers for automated scheduling.
-4. Deploy notification logic via Gmail API or Azure Logic Apps.
-5. Monitor pipeline runs in ADF Monitoring section.
-
----
-
-## 📙 License
-
-This project is open-source and available under the MIT License.
-
----
-
-## 📅 Last Updated
-
-July 2025
-
----
-
 Happy Automating! 🚀
 
