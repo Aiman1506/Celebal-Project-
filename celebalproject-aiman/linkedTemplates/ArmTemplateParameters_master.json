@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "celebalproject-aiman"
+		},
+		"AimanDB_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorageCustomer_accountKey": {
+			"value": ""
+		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"AimanDB_properties_typeProperties_server": {
+			"value": "aiman1506.database.windows.net"
+		},
+		"AimanDB_properties_typeProperties_database": {
+			"value": "sampledb"
+		},
+		"AimanDB_properties_typeProperties_userName": {
+			"value": "Aiman"
+		},
+		"AzureDataLakeStorage_properties_typeProperties_url": {
+			"value": "https://storagedatacsi.dfs.core.windows.net/"
+		},
+		"AzureDataLakeStorageCustomer_properties_typeProperties_url": {
+			"value": "https://storagedatacsi.dfs.core.windows.net"
+		},
+		"REST_API_Country_properties_typeProperties_url": {
+			"value": "https://restcountries.com/v3.1/name/"
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "aiman1506.database.windows.net"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "sampledb"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "aiman"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
