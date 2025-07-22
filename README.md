@@ -24,11 +24,12 @@ Additional advanced features include:
 
 * **Objective:** Automatically fetch data for five countries via REST API and store as JSON files in Azure Data Lake Storage (ADLS).
 * **Countries Handled:**
-  * 🇮🇳 India
-  * 🇺🇸 US
-  * 🇬🇧 UK
-  * 🇨🇳 China
-  * 🇷🇺 Russia
+  - India
+  - US
+  - UK
+  - China
+  - Russia
+
 * **Details:**
   * API Endpoint: https://restcountries.com/v3.1/name/{country_name}
   * Loop through country list dynamically.
