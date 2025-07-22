@@ -69,7 +69,7 @@ Additional advanced features include:
 
 ---
 
-### 📌 **Additional Features 1: Gmail Notification for Status Update**
+### 📌 **Additional Features 1: Gmail Notification for Status Update (Optional)**
 
 * **Objective:** Notify via Gmail upon success or failure of pipelines.
 * **Implementation:**
