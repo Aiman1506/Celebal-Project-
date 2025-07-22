@@ -64,7 +64,7 @@ Additional advanced features include:
   * Pass customer count as a pipeline parameter to child pipeline.
   * Child pipeline handles product data copy based on this parameter.
 
-### 📌 **Task 5: Gmail Notification for Status Update**
+### 📌 **Additional Feature : Gmail Notification for Status Update**
 
 * **Objective:** Notify via Gmail upon success or failure of pipelines.
 * **Implementation:**
