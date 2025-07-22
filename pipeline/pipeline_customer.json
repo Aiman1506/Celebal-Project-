@@ -146,6 +146,57 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Log Pipeline",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy Customer",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[LogPipelineExecution]",
+								"storedProcedureParameters": {
+									"PipelineName": {
+										"value": "@pipeline().Pipeline",
+										"type": "String"
+									},
+									"RecordCount": {
+										"value": {
+											"value": "@activity('Copy Customer').output.rowsCopied",
+											"type": "Expression"
+										},
+										"type": "Int32"
+									},
+									"RunTime": {
+										"value": "@pipeline().TriggerTime",
+										"type": "Datetime"
+									},
+									"Status": {
+										"value": {
+											"value": "@activity('Copy Customer').output.executionDetails[0].status",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "SqlServer1",
+								"type": "LinkedServiceReference"
+							}
 						}
 					]
 				}
